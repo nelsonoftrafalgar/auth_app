@@ -7,7 +7,11 @@ const User: any = connect.define('user', {
   },
   password: {
     type: Sequelize.STRING
-  }
+  },
+},
+{
+  createdAt: false,
+  updatedAt: false
 })
 
 export default User

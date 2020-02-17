@@ -1,6 +1,7 @@
 import { Button, ErrorMessage, FormContainer, FormWrapper, Input } from '../styles'
 
 import { IFormError } from '../types'
+import Nav from './Nav'
 import React from 'react'
 
 interface IFormProps {
@@ -15,6 +16,7 @@ const Form: React.FC<IFormProps> = ({handleEmail, handleSubmit, handlePassword, 
   const {email, password} = error
   return (
     <FormContainer>
+      <Nav/>
       <FormWrapper noValidate={true} onSubmit={handleSubmit}>
         <Input hasError={!!email} onChange={handleEmail} type='email' placeholder='email'/>
         <ErrorMessage>{email}</ErrorMessage>

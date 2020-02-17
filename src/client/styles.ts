@@ -32,6 +32,7 @@ export const FormContainer = styled(Container)`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 `
 
 export const WelcomeContainer = styled(FormContainer)`
@@ -79,6 +80,7 @@ export const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: auto;
 `
 
 export const ErrorMessage = styled.span`

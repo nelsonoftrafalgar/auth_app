@@ -22,7 +22,7 @@ const App = () => {
       <StyleReset/>
         <Router>
           <Switch>
-          <Route exact={true} path='/' component={() => <Home/>}/>
+          <Route exact={true} path='/' component={Home}/>
           <PrivateRoute path='/member' component={Members}/>
           <Route path='/register' component={Register}/>
           <Route path='/login' component={Login}/>

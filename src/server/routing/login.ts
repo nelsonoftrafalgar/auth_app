@@ -6,7 +6,7 @@ import express from 'express'
 import jwt from 'jsonwebtoken'
 import { tokenStorage } from '../services/tokenStorage'
 
-const login = express.Router()
+export const login = express.Router()
 
 login.post('/', async (req, res, next) => {
 
@@ -30,5 +30,3 @@ login.post('/', async (req, res, next) => {
     res.status(201).json({token})
   }
 })
-
-export default login

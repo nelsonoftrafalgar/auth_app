@@ -1,14 +1,16 @@
-import { Header, NavButton } from '../styles'
+import { Button, Header, NavButton } from '../styles'
 
 import React from 'react'
+import { RouteComponentProps } from 'react-router-dom'
 import { auth } from '../services/auth'
+import { handleLogout } from '../helpers/handleLogout'
 
-const Nav = () => {
+const Nav = (props: RouteComponentProps) => {
   return (
     <Header>
       <NavButton to='/'>Home</NavButton>
       {auth.isAuthenticated()
-        ? <NavButton to='/logout'>Logout</NavButton>
+        ? <Button onClick={handleLogout(props.history)} margin='0 20px 0 0'>Logout</Button>
         : <NavButton to='/login'>Login</NavButton>
       }
       <NavButton to='/register'>Register</NavButton>

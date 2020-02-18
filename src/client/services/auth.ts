@@ -1,4 +1,6 @@
+import { IsAuthorizedCallback } from "../types"
 import axios from "axios"
+import { verifyUrl } from "../endpoints"
 
 class Auth {
   insertToken = (token: string) => {
@@ -10,19 +12,21 @@ class Auth {
     window.sessionStorage.removeItem('token')
   }
 
+  getToken = () => {
+    return window.sessionStorage.getItem('token')
+  }
+
   isAuthenticated = () => {
-    const storageToken = window.sessionStorage.getItem('token')
+    const storageToken = this.getToken()
     return !!storageToken
   }
 
-  isAuthorized = async (callback: (shouldRedirect: boolean) => void) => {
-    const target = 'http://localhost:4000/verify'
-
+  isAuthorized = async (callback: IsAuthorizedCallback) => {
     try {
-      const storageToken = window.sessionStorage.getItem('token')!
+      const storageToken = this.getToken()!
       const decodedToken = atob(storageToken)
       const body = {decodedToken}
-      const response = await axios.post(target, body)
+      const response = await axios.post(verifyUrl, body)
       callback(response.status !== 200)
     } catch {
       callback(true)

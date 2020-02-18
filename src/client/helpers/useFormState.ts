@@ -1,11 +1,13 @@
-import { AxiosResponse } from "axios"
+import { AxiosError, AxiosResponse } from "axios"
+
+import { History } from 'history'
 import { IFormError } from "../types"
 import { auth } from "../services/auth"
 import { sendRequest } from "./sendRequest"
 import { useState } from "react"
 import { validateInputs } from "./validateInputs"
 
-export const useFormState = (history: any, url: string) => {
+export const useFormState = (history: History, url: string) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<IFormError>({email: '', password: ''})
@@ -22,16 +24,13 @@ export const useFormState = (history: any, url: string) => {
     setPassword(value)
   }
 
-  const handleLoginError = (error: any) => {
-    const {status, data: {msg}} = error.response
-    if (status === 409) {
+  const handleLoginError = (error: AxiosError) => {
+    const {status, data: {msg}} = error.response as AxiosResponse
+    if (status === 409 || status === 404) {
       setError({email: msg, password: msg})
     }
 
-    if (status === 404) {
-      setError({email: msg, password: msg})
-    }
-    throw new Error(error)
+    throw error
   }
 
   const handleLoginSuccess = (response: AxiosResponse) => {
@@ -56,6 +55,7 @@ export const useFormState = (history: any, url: string) => {
       email,
       password
     }
+
     sendRequest(url, requestBody, handleLoginError, handleLoginSuccess)
   }
 

@@ -47,17 +47,19 @@ export const Input = styled.input<{hasError: boolean}>`
   ${({hasError}) => `border: 1px solid ${hasError ? 'red' : 'transparent'};`}
 `
 
-export const Button = styled.button`
+export const Button = styled.button<{margin: string}>`
   font-size: 20px;
+  font-family: sans-serif;
   padding: 15px 30px;
   color: #787f8a;
   ${neuMorphOuter}
-  margin: auto auto 0;
+  ${({margin}) => `margin: ${margin};`}
   cursor: pointer;
 `
 
 export const NavButton = styled(Link)`
   font-size: 20px;
+  font-family: sans-serif;
   padding: 15px 30px;
   color: #787f8a;
   ${neuMorphOuter}

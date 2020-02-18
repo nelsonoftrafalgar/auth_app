@@ -8,7 +8,7 @@ import bcrypt from 'bcrypt'
 import express from 'express'
 import { tokenStorage } from '../services/tokenStorage'
 
-const register = express.Router()
+export const register = express.Router()
 
 register.post('/', async (req, res, next) => {
 
@@ -40,5 +40,3 @@ register.post('/', async (req, res, next) => {
     })
   }
 })
-
-export default register

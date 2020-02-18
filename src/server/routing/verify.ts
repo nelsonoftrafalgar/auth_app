@@ -3,7 +3,7 @@ import jwt, { Secret } from 'jsonwebtoken'
 import express from 'express'
 import { tokenStorage } from '../services/tokenStorage'
 
-const verify = express.Router()
+export const verify = express.Router()
 
 verify.post('/', (req, res) => {
   const {decodedToken} = req.body
@@ -15,5 +15,3 @@ verify.post('/', (req, res) => {
     }
   })
 })
-
-export default verify

@@ -2,11 +2,12 @@ import { Container, Welcome, WelcomeContainer } from '../styles'
 
 import Nav from './Nav'
 import React from 'react'
+import { RouteComponentProps } from 'react-router-dom'
 
-const Home = () => {
+const Home = (props: RouteComponentProps) => {
   return (
     <Container>
-      <Nav/>
+      <Nav {...props}/>
       <WelcomeContainer>
         <Welcome>Welcome guest</Welcome>
       </WelcomeContainer>

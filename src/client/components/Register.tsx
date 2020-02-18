@@ -1,13 +1,18 @@
 import Form from './Form'
+import Nav from './Nav'
 import React from 'react'
+import { RouteComponentProps } from 'react-router-dom'
+import { registerUrl } from '../endpoints'
 import { useFormState } from '../helpers/useFormState'
 
-const Register = ({history}: any) => {
-  const url = 'http://localhost:4000/register'
-  const {error, handleEmail, handlePassword, handleSubmit} = useFormState(history, url)
+const Register = (props: RouteComponentProps) => {
+  const {error, handleEmail, handlePassword, handleSubmit} = useFormState(props.history, registerUrl)
+
+  const nav = <Nav {...props}/>
 
   return (
     <Form
+      nav={nav}
       error={error}
       type='Register'
       handleEmail={handleEmail}

@@ -1,12 +1,12 @@
-import axios, { AxiosResponse } from 'axios'
+import { HandleRequestError, HandleRequestSuccess, IRequestBody } from '../types'
 
-import { IRequestBody } from '../types'
+import axios from 'axios'
 
 export const sendRequest = (
   url: string,
   requestBody: IRequestBody,
-  handleError: (response: AxiosResponse) => void,
-  handleSuccess: (response: AxiosResponse) => void
+  handleError: HandleRequestError,
+  handleSuccess: HandleRequestSuccess
 ) => {
   axios.post(url, requestBody)
     .then((response) => {

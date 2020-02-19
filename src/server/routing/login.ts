@@ -1,32 +1,23 @@
 import { IUser } from '../models/types'
-import { Secret } from 'jsonwebtoken'
-import User from '../models/user'
 import bcrypt from 'bcrypt'
 import express from 'express'
-import jwt from 'jsonwebtoken'
-import { tokenStorage } from '../services/tokenStorage'
+import { generateToken } from '../helpers/generateToken'
+import { invalidCredentials } from '../helpers/messages'
+import { queries } from '../services/queries'
 
 export const login = express.Router()
 
 login.post('/', async (req, res, next) => {
 
   const {email, password} = req.body
-
-  const user: IUser = await User.findOne({
-    attributes: ['*'],
-    where: {
-      email,
-    },
-    raw: true
-  })
+  const user: IUser = await queries.select({email})
 
   const match = await bcrypt.compare(password, user.password)
 
   if (!user || !match) {
-    res.status(404).json({msg: 'invalid credentials'})
+    res.status(404).json(invalidCredentials)
   } else {
-    const token = jwt.sign({user}, process.env.PRIVATE_KEY as Secret)
-    tokenStorage.insertToken(token)
+    const token = generateToken({user})
     res.status(201).json({token})
   }
 })

@@ -6,14 +6,16 @@ import { auth } from '../services/auth'
 import { handleLogout } from '../helpers/handleLogout'
 
 const Nav = (props: RouteComponentProps) => {
+  const isAuthenticated = auth.isAuthenticated()
+
   return (
     <Header>
       <NavButton to='/'>Home</NavButton>
-      {auth.isAuthenticated()
+      {isAuthenticated
         ? <Button onClick={handleLogout(props.history)} margin='0 20px 0 0'>Logout</Button>
         : <NavButton to='/login'>Login</NavButton>
       }
-      <NavButton to='/register'>Register</NavButton>
+      {!isAuthenticated && <NavButton to='/register'>Register</NavButton>}
       <NavButton to='/member'>Member</NavButton>
     </Header>
   )

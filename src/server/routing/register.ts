@@ -1,12 +1,9 @@
-require('dotenv').config()
-
-import jwt, { Secret } from 'jsonwebtoken'
-
 import { IUser } from '../models/types'
-import User from '../models/user'
+import { accountAllreadyExists } from '../helpers/messages'
 import bcrypt from 'bcrypt'
 import express from 'express'
-import { tokenStorage } from '../services/tokenStorage'
+import { generateToken } from '../helpers/generateToken'
+import {queries} from '../services/queries'
 
 export const register = express.Router()
 
@@ -14,27 +11,19 @@ register.post('/', async (req, res, next) => {
 
   const {email, password} = req.body
   const hashSalt = 8
-
-  const user: IUser = await User.findOne({
-    attributes: ['*'],
-    where: {
-      email,
-    },
-    raw: true
-  })
+  const user: IUser = await queries.select({email})
 
   if (user) {
-    res.status(409).json({msg: 'account allready exists'})
+    res.status(409).json(accountAllreadyExists)
   } else {
     bcrypt.hash(password, hashSalt, async (error, hash) => {
-      const newUser = await User.create({email, password: hash})
       if (error) {
         res.status(500).json({msg: error})
       }
 
+      const newUser = await queries.insert({email, password: hash})
       if (newUser) {
-        const token = jwt.sign({user: newUser.dataValues}, process.env.PRIVATE_KEY as Secret)
-        tokenStorage.insertToken(token)
+        const token = generateToken({user: newUser.dataValues})
         res.status(201).json({token})
       }
     })

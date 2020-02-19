@@ -1,4 +1,5 @@
 import express from 'express'
+import { logoutSuccessful } from '../helpers/messages'
 import { tokenStorage } from '../services/tokenStorage'
 
 export const logout = express.Router()
@@ -8,5 +9,5 @@ logout.post('/', (req, res) => {
 
   tokenStorage.removeToken(token)
 
-  res.status(200).json({msg: 'logout successful'})
+  res.status(200).json(logoutSuccessful)
 })
